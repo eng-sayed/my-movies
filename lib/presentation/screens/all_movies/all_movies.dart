@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:neop_task/core/themes/colors.dart';
 import 'package:neop_task/core/utiles/navigate.dart';
 import 'package:neop_task/core/utiles/utiles.dart';
@@ -82,30 +83,36 @@ class _MyHomePageState extends State<MyHomePage> {
                       },
                     ),
                     Expanded(
-                      child: GridView.builder(
-                          physics: const PageScrollPhysics(),
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                          ),
-                          itemCount: cubit.movies.length,
-                          padding: const EdgeInsets.all(8.0),
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: GestureDetector(
-                                onTap: () {
-                                  navigate(
-                                      context: context,
-                                      route: MovieDetailes(
-                                        movieId: cubit.movies[index].id ?? '',
-                                      ));
-                                },
-                                child:
-                                    OneMovieDesign(cubit: cubit, index: index),
+                      child: cubit.movies.isEmpty
+                          ? Center(
+                              child: Lottie.asset(
+                              "assets/json/empty.json",
+                            ))
+                          : GridView.builder(
+                              physics: const PageScrollPhysics(),
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
                               ),
-                            );
-                          }),
+                              itemCount: cubit.movies.length,
+                              padding: const EdgeInsets.all(8.0),
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      navigate(
+                                          context: context,
+                                          route: MovieDetailes(
+                                            movieId:
+                                                cubit.movies[index].id ?? '',
+                                          ));
+                                    },
+                                    child: OneMovieDesign(
+                                        cubit: cubit, index: index),
+                                  ),
+                                );
+                              }),
                     )
                   ],
                 )));
